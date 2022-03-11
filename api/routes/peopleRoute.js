@@ -5,6 +5,8 @@ const router = Router()
 
 router.get('/people', PersonController.getAll)
 
+router.get('/people/active', PersonController.getActive)
+
 router.get('/people/:id', PersonController.getOne)
 
 router.post('/people', PersonController.create)
@@ -12,6 +14,8 @@ router.post('/people', PersonController.create)
 router.put('/people/:id', PersonController.update)
 
 router.delete('/people/:id', PersonController.delete)
+
+router.post('/people/restore/:id', PersonController.restore)
 
 // ----------------------------------- //
 

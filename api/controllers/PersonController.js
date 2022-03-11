@@ -4,6 +4,15 @@ const db = require('../models')
 class PersonController {
     static async getAll(req, res) {
         try {
+            const people = await db.People.scope('all').findAll()
+            return res.status(200).json(people)
+        } catch (error) {
+            return res.status(500).json({ message: error.message })
+        }
+    }
+
+    static async getActive(req, res) {
+        try {
             const people = await db.People.findAll()
             return res.status(200).json(people)
         } catch (error) {
@@ -71,6 +80,18 @@ class PersonController {
         } catch (error) {
             res.status(500).json({ message: error.message })
         }
+    }
+
+    static async restore(req, res) {
+        const { id } = req.params
+        try {
+            await db.People.restore({
+                where: {
+                    id: Number(id),
+                },
+            })
+            return res.status(200).json({ message: `id ${id} restaurado.` })
+        } catch (error) {}
     }
 
     static async getAllEnrolments(req, res) {
