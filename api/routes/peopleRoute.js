@@ -13,4 +13,25 @@ router.put('/people/:id', PersonController.update)
 
 router.delete('/people/:id', PersonController.delete)
 
+// ----------------------------------- //
+
+router.get('/people/:student_id/enrolments', PersonController.getAllEnrolments)
+
+router.get(
+    '/people/:student_id/enrolments/:enrolment_id',
+    PersonController.getOneEnrolment
+)
+
+router.post('/people/:student_id/enrolments', PersonController.createEnrolment)
+
+router.put(
+    '/people/:student_id/enrolments/:enrolment_id',
+    PersonController.updateEnrolment
+)
+
+router.delete(
+    '/people/:student_id/enrolments/:enrolment_id',
+    PersonController.deleteEnrolment
+)
+
 module.exports = router

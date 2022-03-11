@@ -72,6 +72,91 @@ class PersonController {
             res.status(500).json({ message: error.message })
         }
     }
+
+    static async getAllEnrolments(req, res) {
+        const { student_id } = req.params
+        try {
+            const result = await db.Enrolments.findAll({
+                where: {
+                    student_id: Number(student_id),
+                },
+            })
+
+            return res.status(200).json(result)
+        } catch (error) {
+            return res.status(404).json({ message: error.message })
+        }
+    }
+
+    static async getOneEnrolment(req, res) {
+        const { enrolment_id, student_id } = req.params
+        try {
+            const result = await db.Enrolments.findOne({
+                where: {
+                    id: Number(enrolment_id),
+                    student_id: Number(student_id),
+                },
+            })
+
+            return res.status(200).json(result)
+        } catch (error) {
+            return res.status(404).json({ message: error.message })
+        }
+    }
+
+    static async createEnrolment(req, res) {
+        const { student_id } = req.params
+        const body = req.body
+        body.student_id = student_id
+        try {
+            const result = await db.Enrolments.create(body)
+
+            return res.status(200).json(result)
+        } catch (error) {
+            return res.status(404).json({ message: error.message })
+        }
+    }
+
+    static async updateEnrolment(req, res) {
+        const { student_id, enrolment_id } = req.params
+        const body = req.body
+        try {
+            await db.Enrolments.update(body, {
+                where: {
+                    id: Number(enrolment_id),
+                    student_id: Number(student_id),
+                },
+            })
+
+            const result = await db.Enrolments.findOne({
+                where: {
+                    id: Number(enrolment_id),
+                },
+            })
+
+            return res.status(200).json(result)
+        } catch (error) {
+            return res.status(404).json({ message: error.message })
+        }
+    }
+
+    static async deleteEnrolment(req, res) {
+        const { student_id, enrolment_id } = req.params
+        try {
+            await db.Enrolments.destroy({
+                where: {
+                    id: Number(enrolment_id),
+                    student_id: Number(student_id),
+                },
+            })
+
+            return res
+                .status(200)
+                .json({ message: `O id ${enrolment_id} foi deletado.` })
+        } catch (error) {
+            return res.status(404).json({ message: error.message })
+        }
+    }
 }
 
 module.exports = PersonController
